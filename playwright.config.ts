@@ -20,10 +20,10 @@ export default defineConfig({
         baseURL: process.env.BASE_URL,
         actionTimeout: 3000,
         trace: 'on-first-retry',
-        headless: !process.env.CI,
+        headless: !!process.env.CI,
         viewport: { width: 1920, height: 1080 },
         launchOptions: {
-            devtools: !!process.env.CI,
+            devtools: !process.env.CI,
             args: ['--use-gl=egl'], // enable hardware acceleration locally
         },
     },

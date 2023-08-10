@@ -5,8 +5,10 @@ import { PracticeFormPage } from '../pages/practice-form.page';
 import { ProgressBarPage } from '../pages/progress-bar.page';
 import { ToolTipsPage } from '../pages/tooltips.page';
 import { DroppablePage } from '../pages/droppable.page';
+import { MainPage } from '../pages/main.page';
 
 export interface BaseTest {
+    mainPage: MainPage;
     webTablesPage: WebTablesPage;
     brokenLinksImagesPage: BrokenLinksImagesPage;
     practiceFormPage: PracticeFormPage;
@@ -16,6 +18,9 @@ export interface BaseTest {
 }
 
 export const test = base.extend<BaseTest>({
+    mainPage: async ({ page }, use) => {
+        await use(new MainPage(page));
+    },
     webTablesPage: async ({ page }, use) => {
         await use(new WebTablesPage(page));
     },
