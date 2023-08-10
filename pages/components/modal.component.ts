@@ -7,8 +7,4 @@ export class ModalWindow {
         await this.page.locator('.modal-content').waitFor({ state: 'attached' });
         return this;
     }
-
-    async getTitleText(): Promise<string> {
-        return this.page.locator('.modal-title').innerText();
-    }
 }
