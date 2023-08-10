@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { fillIfValueNotEmpty } from '../helpers/elements.helper';
+import { fillIfValueNotEmpty, findElement } from '../helpers/elements.helper';
 import { ModalWindow } from './components/modal.component';
 
 export type RegistrationFields = {
@@ -53,17 +53,11 @@ export class WebTablesPage {
         const allRows = await this.getAllRows();
 
         // Find the last not empty row
-        let lastRow;
-        for (const row of allRows.reverse()) {
+        const matchingFunction = async (row: Locator): Promise<boolean> => {
             const attr = await row.getAttribute('class');
-            if (!attr?.includes('-padRow')) {
-                lastRow = row;
-                break;
-            }
-        }
-        if (!lastRow) {
-            throw new Error('Should be at least one filled row in the table');
-        }
+            return !attr?.includes('-padRow');
+        };
+        const lastRow = await findElement(allRows.reverse(), matchingFunction);
 
         return this.parseRowLocator(lastRow);
     }
